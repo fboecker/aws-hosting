@@ -1,0 +1,35 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creates AWS simple directory which is necessary for the use of the workmail service 
+Parameters:
+  VpcID:
+    Type: String
+    Description: VPC ID
+  SubnetOne:
+    Type: String
+    Description: First SubnetId
+  SubnetTwo:
+    Type: String
+    Description: Second SubnetId
+Resources:
+  simpleDirectoryRotationSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: 'This is the secret for simple directory administration'
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "admin"}'
+        GenerateStringKey: 'password'
+        PasswordLength: 16
+        ExcludeCharacters: '"@/\'
+  simpleDirectory: 
+    Type: AWS::DirectoryService::SimpleAD
+    Properties: 
+      CreateAlias: false
+      Name: !ImportValue DomainName
+      Password: !Join ['', ['{{resolve:secretsmanager:', !Ref simpleDirectoryRotationSecret, ':SecretString:password}}' ]]
+      Size: "Small"
+      VpcSettings: 
+        SubnetIds: 
+          - Ref: SubnetOne
+          - Ref: SubnetTwo
+        VpcId: !Ref VpcID

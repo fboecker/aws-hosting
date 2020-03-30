@@ -1,0 +1,29 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "cloudformation:*",
+                "s3:*",
+                "acm:*",
+                "cloudfront:*",
+                "route53:*",
+                "route53domains:*",
+                "route53resolver:*",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeSubnets",
+                "secretsmanager:*",
+                "ds:*",
+                "ec2:*",
+                "organizations:CreateOrganization",
+                "organizations:DeleteOrganization",
+                "organizations:DescribeOrganization",
+                "workmail:*",
+                "ses:GetIdentityVerificationAttributes"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

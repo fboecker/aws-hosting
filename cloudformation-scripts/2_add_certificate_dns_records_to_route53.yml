@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creates new DNS record for SSL certificate 
+Parameters:
+  DomainName:
+    Type: String
+    Description: The DNS name of an existing amazon route53 hosted zone e.g. example.de
+  RecordName:
+    Type: String
+    Description: DNS RecordName
+  RecordValue:
+    Type: String
+    Description: DNS RecordValue
+
+Resources:
+  domainDNSRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneName: !Join ["", [ !Ref 'DomainName',"."]]
+      Comment: DNS record for certificate.
+      Name: !Ref 'RecordName'
+      Type: CNAME
+      TTL: '300'
+      ResourceRecords: [!Ref 'RecordValue']
